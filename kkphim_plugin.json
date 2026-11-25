@@ -1,0 +1,83 @@
+{
+  "name": "KKPhim",
+  "version": "1.1.0",
+  "description": "Plugin xem phim từ nguồn KKPhim (phimapi.com) - Hỗ trợ danh sách, thể loại, tìm kiếm và phát video HLS.",
+  "author": "YourName",
+  "sites": [
+    {
+      "key": "kkphim",
+      "name": "KKPhim",
+      "type": 3,
+      "api": "https://phimapi.com",
+      "searchable": 1,
+      "quickSearch": 1,
+      "filterable": 1,
+      "hide": 0,
+      "ext": {
+        "list": "/danh-sach/phim-moi-cap-nhat?page=fypage",
+        "category": "/v1/api/danh-sach/{cateId}?page=fypage",
+        "detail": "/phim/{id}",
+        "search": "/v1/api/tim-kiem?keyword={wd}&page=fypage",
+        "play": "/phim/{id}",
+        "categories": [
+          { "id": "phim-le", "name": "Phim Lẻ" },
+          { "id": "phim-bo", "name": "Phim Bộ" },
+          { "id": "hoat-hinh", "name": "Hoạt Hình" },
+          { "id": "tv-shows", "name": "TV Shows" }
+        ]
+      }
+    }
+  ],
+  "parses": [
+    {
+      "name": "KKPhim Parser",
+      "type": 1,
+      "url": "https://phimapi.com",
+      "ext": {
+        "flag": ["kkphim"],
+        "header": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+        }
+      }
+    }
+  ],
+  "flags": [
+    "Phim Lẻ",
+    "Phim Bộ",
+    "Hoạt Hình",
+    "TV Shows"
+  ],
+  "lives": [],
+  "ads": [],
+  "rules": {
+    "list": {
+      "data": "items",
+      "title": "name",
+      "desc": "origin_name",
+      "pic": "poster_url",
+      "id": "slug"
+    },
+    "category": {
+      "data": "items",
+      "title": "name",
+      "desc": "origin_name",
+      "pic": "poster_url",
+      "id": "slug"
+    },
+    "detail": {
+      "title": "movie.name",
+      "desc": "movie.content",
+      "pic": "movie.poster_url",
+      "content": "movie.content",
+      "year": "movie.year",
+      "area": "movie.country",
+      "actor": "movie.actor",
+      "director": "movie.director"
+    },
+    "play": {
+      "data": "episodes[0].server_data",
+      "title": "name",
+      "url": "link_m3u8"
+    }
+  }
+}
